@@ -2,12 +2,7 @@
 
 void Quicksort(int vet[], int l, int r) {
     int pivot = vet[l + (r - l) / 2];
-    /*
-	Atribui-se ao pivot o índice do meio do array, para que
-	seja mais rápido
-	
-	Assim, pivot = vet[0 + (8 - 0)/2] -> vet[4] = pivot
-	*/
+  
     int left = l, right = r;
     
     while (left <= right) {
