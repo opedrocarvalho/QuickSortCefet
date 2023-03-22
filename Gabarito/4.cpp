@@ -63,7 +63,8 @@ void Quicksort(No *n, No *l, No *r) {
         right = right -> ant;
 		}
         if (left != right->ant) {
-            No *temp = left->num;
+            No *temp;
+			temp->num = left->num;
             left->num = right->num;
             right->num = temp->num;
             left = left -> prox;
@@ -77,11 +78,11 @@ void Quicksort(No *n, No *l, No *r) {
 
 int main(){
 No *lista = NULL;
-   lista = Inicio(6);
-   lista =Inicio (2);
-   lista = Inicio (1);
-   lista = Inicio (10);
-   lista = Inicio (11);
+    Inicio(6);
+   	Inicio (2);
+    Inicio (1);
+    Inicio (10);
+    Inicio (11);
    
    Imprimir();
    
