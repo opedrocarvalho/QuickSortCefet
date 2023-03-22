@@ -55,7 +55,7 @@ void quicksort(card* vetor, int esq, int dir) {
 
 int main() {
     
-    struct estoque cartas[5] = {
+   card cartas[] = {
         {"Carta 1", "TCG 1", "raro"},
         {"Carta 2", "TCG 1", "ex"},
         {"Carta 3", "TCG 2", "full art"},
