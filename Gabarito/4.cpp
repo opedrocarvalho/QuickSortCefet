@@ -1,94 +1,81 @@
 #include <stdio.h>
-#include <iostream>
-typedef struct no No;
-struct no {
-    int num;
-    No*prox,*ant;
-}*inicio = NULL,*fim=NULL;
+#include <stdlib.h>
 
-void Inicio(int x) {
-    No*novo;
-    novo = new No();
-    
-    if(inicio==NULL){
-    novo -> num = x;
-    novo->prox = NULL;
-	novo->ant = NULL;
-	inicio = novo;
-	fim = novo;
-	}
-	else{
-	novo -> num = x;
-    novo->prox = inicio;
-	inicio-> ant= novo;
-	inicio= novo;
-	inicio ->ant=NULL;
-	}
+typedef struct no {
+  int dado;
+  struct no *ant;
+  struct no *prox;
+} No;
+
+void trocar(int *a, int *b) {
+  int temp = *a;
+  *a = *b;
+  *b = temp;
 }
- 	
 
-void Imprimir() {
-    No*aux = inicio;
-    printf("Lista Impressa: \n");
-    while (aux != NULL) {
-        printf("%d ", aux->num);
-        aux = aux->prox;
+No *particionar(No *inicio, No *fim) {
+  int pivo = fim->dado;
+  No *i = inicio->ant;
+
+  for (No *j = inicio; j != fim; j = j->prox) {
+    if (j->dado < pivo) {
+      i = (i == NULL) ? inicio : i->prox;
+      trocar(&(i->dado), &(j->dado));
     }
+  }
+
+  i = (i == NULL) ? inicio : i->prox;
+  trocar(&(i->dado), &(fim->dado));
+
+  return i;
 }
 
-
-No *centro (No *li){
-	No *start = inicio, *end = fim;
-	if (inicio != NULL){
-		while (end -> ant != start || end == start){
-			start = start -> prox;
-			end = end -> ant;
-		}
-	return start;	
-	}
+void quicksort(No *inicio, No *fim) {
+  if (fim != NULL && inicio != fim && inicio != fim->prox) {
+    No *p = particionar(inicio, fim);
+    quicksort(inicio, p->ant);
+    quicksort(p->prox, fim);
+  }
 }
 
-void Quicksort(No *n, No *l, No *r) {
-	if (l == NULL || r == NULL || l == r) {
-        return;
-    }
-    No *pivot = centro (n);
-    No *left = l, *right = r;
-    
-    while (left != right->ant) {
-        while (left->num < pivot->num) {
-		left = left->prox;
-		}
-        while (right->num > pivot->num){
-        right = right -> ant;
-		}
-        if (left != right->ant) {
-            No *temp;
-			temp->num = left->num;
-            left->num = right->num;
-            right->num = temp->num;
-            left = left -> prox;
-            right= right -> ant;
-        }
-    }
-    
-    if (l < right) Quicksort(n, l, right);
-    if (left < r) Quicksort(n, left, r);
+void imprimirLista(No *no) {
+  while (no != NULL) {
+    printf("%d ", no->dado);
+    no = no->prox;
+  }
+  printf("\n");
 }
 
-int main(){
-No *lista = NULL;
-    Inicio(6);
-   	Inicio (2);
-    Inicio (1);
-    Inicio (10);
-    Inicio (11);
-   
-   Imprimir();
-   
-   Quicksort (lista, inicio, fim);
-   
-   Imprimir ();
+int main() {
+  No *inicio = NULL, *fim = NULL;
+  int n, x;
 
+  printf("Digite o tamanho da lista: ");
+  scanf("%d", &n);
+
+  printf("Digite os elementos da lista:\n");
+
+  for (int i = 0; i < n; i++) {
+    scanf("%d", &x);
+    No *novo_no = (No*) malloc(sizeof(No));
+    novo_no->dado = x;
+    novo_no->ant = fim;
+    novo_no->prox = NULL;
+
+    if (fim != NULL)
+      fim->prox = novo_no;
+    fim = novo_no;
+    if (inicio == NULL)
+      inicio = fim;
+  }
+
+  printf("Lista original: ");
+  imprimirLista(inicio);
+
+  quicksort(inicio, fim);
+
+  printf("Lista ordenada: ");
+  imprimirLista(inicio);
+
+  return 0;
 }
-
